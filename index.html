@@ -1,0 +1,390 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1.0">
+  <title>小金井北高校</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: sans-serif;
+      background: #ffffff;
+    }
+
+    .header {
+      position:fixed;
+      top:0;
+      left:0;
+      width:100vw;
+      z-index:1000;
+      background-color: #08445e;
+      color: white;
+      padding: 10px 20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size:180%;
+    }
+
+    .menu-toggle {
+      font-size: 100%;
+      cursor: pointer;
+    }
+
+    .menu {
+      position:fixed;
+      pointer-events: none;
+      flex-direction: column;
+      gap:12px;
+      background-color:rgba(8,68,94,0.8);
+      padding: 10px 20px;
+      top: 60px;
+      right: -100%;
+      width:30vw;
+      height:100%;
+      border-radius: 8px;
+      transition:right 0.5s ease;
+      z-index:10;
+      font-size:130%;
+    }
+
+    .menu a {
+      color: white;
+      text-decoration: none;
+      margin: 5px 0;
+    }
+
+    .menu.active {
+      opacity:1;
+      pointer-events:auto;
+      right:0;
+    }
+    *{
+      box-sizing:border-box;
+      max-width:100%;
+    }
+    h1{
+      position:sticky;
+      top:60px;
+      padding-left:3%;
+      background-color:#99b7ab;
+      color:#ffffff;
+      font-size:190%;
+      z-index:3;
+      scroll-margin-top: 80px;
+    }
+    .image-column{
+      display:flex;
+      flex-direction:column;
+      align-items:center;
+      gap:0;
+      padding:0;
+      margin:0;
+    }
+    .image-container{
+      position:relative;
+      display:inline-block;
+      max-width:100vw;
+      margin:20 auto;
+      
+    }
+    .img{
+      width:100vw;
+      display:block;
+    }
+    .overlay-text{
+      position:absolute;
+      top:175px;
+      left:195px;
+      background:rgba(0,0,0,1);
+      color:white;
+      padding:8px 12px;
+      border-radius:5px;
+      cursor:pointer;
+      z-index:2;
+    }
+    .info-box{
+      display:none;
+      position:fixed;
+      top:50%;
+      left:50%;
+      transform:translate(-50%,-50%);
+      background:rgba(255,255,255,1);
+      color:black;
+      padding:10px;
+      border:1px solid #ccc;
+      border-radius:5px; 
+      z-index:3;
+      width:80%;
+      max-width:90%;
+      max-height:90%;
+      overflow:auto;
+      box-shadow:0 4px 12px rgba(0,0,0,0.3);
+      text-align:center;
+    }
+    .info-image{
+      width:100%;
+      margin-top:10px;
+      border-radius:6px;  
+    }
+    .close-button{
+      position:absolute;
+      top:8px;
+      right:10px;
+      cursor:pointer;
+      font-size:1.2em;
+      color:#555;
+    }
+    h2{
+      position:sticky;
+      top:60px;
+      padding-left:3%;
+      color:#ffffff;
+      background-color:#99b7ab;
+      font-size:190%;
+      z-index:3;
+    }
+    h3{
+      display:inline;
+      font-size:130%;
+      background-color:#b1c3bc;
+      padding-left:3%;
+      padding-right:3%;
+      color:#ffffff;
+    } 
+    h4{
+      display:inline;
+      font-size:130%;
+      background-color:#b1c3bc;
+      padding-left:3%;
+      padding-right:3%;
+      color:#ffffff;
+    } 
+    .timetable{
+      width:100%;
+      border-collapse:collapse;
+      border:1px solid #444;
+      margin:20px 0;
+      font-family:sans-serif;
+      font-size:16px;
+    }
+    .timetable th, .timetable td{
+      border:1px solid #444;
+      padding:12px;
+      text-align:center;
+    }
+    .timetable thead th{
+      background-color:#f3fffa;
+      font-weight:bold;
+    }
+    .timetable tr:nth-child(even){
+      background-color:#ffffff;
+    }
+    .highlight{
+      background-color:#d0ffec !important;
+      font-weight:bold;
+    }
+    .html{
+      scroll-behavior:smooth;
+    }
+  </style>
+  <main style="margin-top:70px;"></main>
+</head>
+<body>
+  <div class="header">
+    <div class="logo">小金井北高校</div>
+    <div class="menu-toggle" id="menu-toggle">&#9776;</div>
+  </div>
+
+  <nav class="menu" id="menu">
+    <p><a href="#">home</a></p>
+    <p><a href="#" onclick="scrollToHeading(event, 'h1target')">校内マップ</a></p>
+    <p><a href="#" onclick="scrollToHeading(event, 'h2target')">タイムテーブル</a></p>
+    <p><a href="#">Contact</a></p>
+  </nav>
+  
+  <img src="image/aa.png">
+  <h1 id="h1target">◆校内マップ</h1>
+  <div class="image-column">
+    <div class="image-container">
+      <img src="image/map1.jpg" alt="写真">
+      <div class="overlay-text" onclick="openInfo('info1')">オープンスペース</div>
+      <div id="info1" class="info-box">
+        <span class="close-button" onclick="closeInfo('info1')">×</span>
+        <p>みんながくつろぐ場所</p>
+        <img src="image/opn.jpg" class="info-image">
+      </div>
+    </div>
+    <div class="image-container">
+      <img src="image/map2.jpg" alt="写真">
+      <div class="overlay-text" onclick="openInfo('info2-1')"style="top:50px;left:230px;">1c</div>
+      <div id="info2-1" class="info-box">
+        <span class="close-button" onclick="closeInfo('info2-1')">×</span>
+        <p>勉強するとこ</p>
+        <img src="image/opn.jpg" class="info-image">
+      </div>
+      <div class="overlay-text" onclick="openInfo('info2-2')"style="top:100px;left:200px;">1d</div>
+      <div id="info2-2" class="info-box">      
+        <span class="close-button" onclick="closeInfo('info2-2')">×</span>
+        <p>勉強するとこ</p>
+        <img src="image/opn.jpg" class="info-image">
+      </div>
+    </div>
+  </div>
+  <h2 id="h2target">◆タイムテーブル</h2>
+  <h3>体育館(演劇)</h3>
+  <table class="timetable">
+    <thead>
+      <tr>
+        <th>時間</th>
+        <th>クラス</th>
+        <th>題名</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr data-start="09:00" data-end="09:45" >
+        <td>9:00~9:45</td>
+        <td>ダンス部</td>
+        <td>-</td>
+      </tr>
+      <tr data-start="10:00" data-end="10:35" >
+        <td>10:00~10:35</td>
+        <td>c</td>
+        <td>映画泥棒</td>
+      </tr>
+      <tr data-start="10:50" data-end="11:25" >
+        <td>10:50~11:25</td>
+        <td>E</td>
+        <td>美女と野獣</td>
+      </tr>
+      <tr data-start="11:45" data-end="12:15" >
+        <td>11:40~12:15</td>
+        <td>F</td>
+        <td>名探偵コナン</td>
+      </tr>
+      <tr data-start="13:45" data-end="14:20" >
+        <td>13:45~14:20</td>
+        <td>A</td>
+        <td>ドラゴン桜</td>
+      </tr>
+      <tr data-start="18:00" data-end="19:00" >
+        <td>18:00~19:00</td>
+        <td>B</td>
+        <td>チャーリーとチョコレート工場</td>
+      </tr>
+      <tr data-start="19:00" data-end="21:00" >
+        <td>15:25~16:00</td>
+        <td>D</td>
+        <td>なんか</td>
+      </tr>
+    </tbody>
+  </table>
+  <h4>剣道場(軽音楽部)</h4>
+  <table class="timetable">
+    <thead>
+      <tr>
+        <th>時間</th>
+        <th>バンド</th>
+        <th>演奏曲</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr data-start="09:00" data-end="09:45" >
+        <td>9:00~9:45</td>
+        <td>？？</td>
+        <td onclick="openInfo('info-band1')" style="cursor:pointer; color:blue;">ここをクリック</td>
+        <div id="info-band1" class="info-box">
+        <span class="close-button" onclick="closeInfo('info-band1')">×</span>
+        <p>ai</p>
+        <p>koi</p>
+        </div>
+
+      </tr>
+      <tr data-start="21:00" data-end="24:00" >
+        <td>10:00~10:35</td>
+        <td>；；</td>
+        <td onclick="openInfo('info-band2')" style="cursor:pointer; color:blue;">ここをクリック</td>
+        <div id="info-band2" class="info-box">
+        <span class="close-button" onclick="closeInfo('info-band2')">×</span>
+        <p>ai</p>
+        <p>koi</p>
+        </div>
+      </tr>
+      <tr data-start="10:50" data-end="11:25" >
+        <td>10:50~11:25</td>
+        <td>：：</td>
+        <td>ここをクリック</td>
+      </tr>
+      <tr data-start="11:45" data-end="12:15" >
+        <td>11:40~12:15</td>
+        <td>「「</td>
+        <td>ここをクリック</td>
+      </tr>
+    </tbody>
+  </table>
+
+
+
+  <script>
+    const toggle = document.getElementById("menu-toggle");
+    const menu = document.getElementById("menu");
+
+    toggle.addEventListener("click", () => {
+      menu.classList.toggle("active");
+    });
+    function openInfo(id){
+      document.getElementById(id).style.display='block';
+    }
+    function closeInfo(id){
+      document.getElementById(id).style.display='none';   
+    }
+    function highlightActiveRows(){
+      const now=new Date();
+      const currentMinutes=now.getHours()*60+now.getMinutes();
+      const tables=document.querySelectorAll(".timetable");
+      tables.forEach(table =>{
+        const rows=table.querySelectorAll("tbody tr");
+        rows.forEach(row =>{
+          const start=row.getAttribute("data-start");
+          const end=row.getAttribute("data-end");
+
+        if (!start || !end) return;
+        const [startH,startM]=start.split(":").map(Number);
+        const [endH,endM]=end.split(":").map(Number);
+        const startMin=startH*60+startM;
+        const endMin=endH *60 +endM;
+
+        if (currentMinutes>=startMin && currentMinutes < endMin){
+          row.classList.add("highlight");
+        } else {
+          row.classList.remove("highlight");
+        }
+        });
+      });
+    }
+    highlightActiveRows();
+    setInterval(highlightActiveRows,60000);
+    function scrollToHeading(event, headingId) {
+      event.preventDefault();
+      const headerHeight = document.querySelector('.header').offsetHeight;
+      const target = document.getElementById(headingId);
+      if (!target) return;
+      const originalBehavior = document.documentElement.style.scrollBehavior;
+      document.documentElement.style.scrollBehavior='auto';
+      window.scrollTo(0, window.scro11Y - 1);
+      setTimeout(() => {
+        document.documentElement.style.scrollBehavior = originalBehavior || 'smooth';
+        const targetTop = target.getBoundingClientRect().top + window.pageYOffset;
+        window.scrollTo({
+          top: targetTop - headerHeight,
+          behavior: 'smooth'
+        });
+      }, 20);
+
+      document.getElementById('menu').classList.remove('active');
+    }
+
+  </script>
+
+</body>
+</html>
